@@ -88,9 +88,7 @@ if __name__ == '__main__':
         rospy.init_node('person_detector', anonymous=True)
         idc = PersonDetector()
         rospy.loginfo('idc Initialized')
-        idc.start()
         rospy.spin()
-        idc.finish()
 
     except rospy.ROSInterruptException:
         pass
