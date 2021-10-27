@@ -56,7 +56,7 @@ class PersonDetector():
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
             self.distance.publish(str(m_person_depth))
-            self.image_pub.publish(self.bridge.cv2_to_imgmsg(rgb_image))
+            self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
             
 #         cv2.namedWindow("rgb_image")
 #         cv2.imshow("rgb_image", rgb_image)
