@@ -29,6 +29,7 @@ class PersonDetector():
         self.sub_camera_rgb     =  rospy.Subscriber('/camera/color/image_raw', Image, self.CamRgbImageCallback)
         self.sub_camera_depth   =  rospy.Subscriber('/camera/aligned_depth_to_color/image_raw', Image, self.CamDepthImageCallback)
         self.sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
+        self.image_pub          =  rospy.Publisher('/camera/yolo/image_raw', Image, queue_size=1)
         self.distance           =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
         return
 
@@ -54,7 +55,7 @@ class PersonDetector():
             text_pos = (self.person_bbox.xmin + 5, self.person_bbox.ymin)
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
-            self.distance.publish(str(m_person_depth))
+            
             
 #         cv2.namedWindow("rgb_image")
 #         cv2.imshow("rgb_image", rgb_image)
@@ -63,6 +64,8 @@ class PersonDetector():
 #         cv2.namedWindow("depth_image")
 #         cv2.imshow("depth_image", self.m_depth_image)
 #         cv2.waitKey(10)
+         self.distance.publish(str(m_person_depth))
+         self.image_pub.publish(self.bridge.cv2_to_imgmsg(rgb_image))
         return
 
 
