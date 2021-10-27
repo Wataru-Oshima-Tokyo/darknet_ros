@@ -391,22 +391,22 @@ void* YoloObjectDetector::fetchInThread() {
 }
 
 void* YoloObjectDetector::displayInThread(void* ptr) {
-  int c = show_image(buff_[(buffIndex_ + 1) % 3], "YOLO", 1);
-  if (c != -1) c = c % 256;
-  if (c == 27) {
-    demoDone_ = 1;
-    return 0;
-  } else if (c == 82) {
-    demoThresh_ += .02;
-  } else if (c == 84) {
-    demoThresh_ -= .02;
-    if (demoThresh_ <= .02) demoThresh_ = .02;
-  } else if (c == 83) {
-    demoHier_ += .02;
-  } else if (c == 81) {
-    demoHier_ -= .02;
-    if (demoHier_ <= .0) demoHier_ = .0;
-  }
+  // int c = show_image(buff_[(buffIndex_ + 1) % 3], "YOLO", 1);
+  // if (c != -1) c = c % 256;
+  // if (c == 27) {
+  //   demoDone_ = 1;
+  //   return 0;
+  // } else if (c == 82) {
+  //   demoThresh_ += .02;
+  // } else if (c == 84) {
+  //   demoThresh_ -= .02;
+  //   if (demoThresh_ <= .02) demoThresh_ = .02;
+  // } else if (c == 83) {
+  //   demoHier_ += .02;
+  // } else if (c == 81) {
+  //   demoHier_ -= .02;
+  //   if (demoHier_ <= .0) demoHier_ = .0;
+  // }
   return 0;
 }
 
