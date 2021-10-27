@@ -25,10 +25,10 @@ class PersonDetector():
         self.m_pub_threshold = rospy.get_param('~pub_threshold', 0.40)
 
         # Subscribe
-        sub_camera_rgb     =  rospy.Subscriber('/camera/color/image_raw', Image, self.CamRgbImageCallback)
-        sub_camera_depth   =  rospy.Subscriber('/camera/aligned_depth_to_color/image_raw', Image, self.CamDepthImageCallback)
-        sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
-
+        self.sub_camera_rgb     =  rospy.Subscriber('/camera/color/image_raw', Image, self.CamRgbImageCallback)
+        self.sub_camera_depth   =  rospy.Subscriber('/camera/aligned_depth_to_color/image_raw', Image, self.CamDepthImageCallback)
+        self.sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
+        self.distance           =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
         return
 
     def CamRgbImageCallback(self, rgb_image_data):
@@ -53,14 +53,15 @@ class PersonDetector():
             text_pos = (self.person_bbox.xmin + 5, self.person_bbox.ymin)
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
-
-        cv2.namedWindow("rgb_image")
-        cv2.imshow("rgb_image", rgb_image)
-        cv2.waitKey(10)
-        cv2.normalize(self.m_depth_image, self.m_depth_image, 0, 32768, cv2.NORM_MINMAX)
-        cv2.namedWindow("depth_image")
-        cv2.imshow("depth_image", self.m_depth_image)
-        cv2.waitKey(10)
+            self.distance.publish(str(m_person_depth))
+            
+#         cv2.namedWindow("rgb_image")
+#         cv2.imshow("rgb_image", rgb_image)
+#         cv2.waitKey(10)
+#         cv2.normalize(self.m_depth_image, self.m_depth_image, 0, 32768, cv2.NORM_MINMAX)
+#         cv2.namedWindow("depth_image")
+#         cv2.imshow("depth_image", self.m_depth_image)
+#         cv2.waitKey(10)
         return
 
 
