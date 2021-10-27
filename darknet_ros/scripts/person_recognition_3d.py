@@ -8,6 +8,7 @@ import threading
 # This import is for ROS integration
 import rospy
 from sensor_msgs.msg import Image,CameraInfo
+from std_msgs.msg import String
 from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 from darknet_ros_msgs.msg import BoundingBoxes,BoundingBox
