@@ -45,21 +45,16 @@ class PersonDetector():
         if self.person_bbox.probability > 0.0 :
 
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
-            m_person_depth = self.m_depth_image[(int)(self.person_bbox.ymax+self.person_bbox.ymin)/2][(int)(self.person_bbox.xmax+self.person_bbox.xmin)/2]
-
             cv2.rectangle(rgb_image, (self.person_bbox.xmin, self.person_bbox.ymin), (self.person_bbox.xmax, self.person_bbox.ymax),(0,0,255), 2)
-            rospy.loginfo('Class : person, Score: %.2f, Dist: %dmm ' %(self.person_bbox.probability, m_person_depth))
-            text = "person " +('%dmm' % m_person_depth)
+            text=""
             text_top = (self.person_bbox.xmin, self.person_bbox.ymin - 10)
             text_bot = (self.person_bbox.xmin + 80, self.person_bbox.ymin + 5)
             text_pos = (self.person_bbox.xmin + 5, self.person_bbox.ymin)
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
-            self.distance.publish(str(m_person_depth))
-            self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
-            
-        cv2.namedWindow("rgb_image")
-        cv2.imshow("rgb_image", rgb_image)
+            self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image)) 
+            cv2.namedWindow("rgb_image")
+            cv2.imshow("rgb_image", rgb_image)
 #         cv2.waitKey(10)
 #         cv2.normalize(self.m_depth_image, self.m_depth_image, 0, 32768, cv2.NORM_MINMAX)
 #         cv2.namedWindow("depth_image")

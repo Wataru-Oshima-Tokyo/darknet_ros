@@ -8,7 +8,7 @@
 class getAndSend{
     public:
     getAndSend(){
-        cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/camera/yolo/cmd_vel", 1000);
+        cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
 
         distance_sub = n.subscribe("/camera/yolo/distance", 1000, &getAndSend::control_Callback, this);
     }
@@ -20,11 +20,11 @@ class getAndSend{
             try
             {
                 double distance = std::stod(msg->data.c_str());
-                if (distance < 500 && distance > 100)
+                if (distance <= 1000 && distance > 100)
                 {
                     cmd_vel.linear.x = -1;
                 }
-                else if (distance > 1000)
+                else if (distance > 1500)
                 {
                     cmd_vel.linear.x = 1;
                 }else {

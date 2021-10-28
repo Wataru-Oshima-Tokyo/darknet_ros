@@ -1,4 +1,14 @@
 
+
+import os
+import threading
+
+import rospy
+
+from sensor_msgs.msg import Image, CameraInfo
+from std_msgs.msg import String
+from cv_brdige import CvBridge, CvBridgeError
+import numpy as np
 import cv2
 import numpy as np
 
@@ -12,16 +22,19 @@ cap = cv2.VideoCapture('videos/rectangle.mp4')
 cap.set(3, frameWidth)
 cap.set(4, frameHeight)
 
+class ContourDetector():
+    def __init__(self):
+        self.cv_bridge = CvBridge()
+        cv2.namedWindow('Parameters')
+        cv2.resizeWindow('Parameters', 1600, 400)
+        cv2.createTrackbar('Threshold1', 'Parameters', 0, 255, empty)
+        cv2.createTrackbar('Threshold2', 'Parameters', 0, 255, empty)
+        cv2.createTrackbar('Area', 'Parameters', 5000, 30000, empty)
 
-def empty(a):
-    pass
 
+    def empty(self, a):
+        pass
 
-cv2.namedWindow('Parameters')
-cv2.resizeWindow('Parameters', 1600, 400)
-cv2.createTrackbar('Threshold1', 'Parameters', 0, 255, empty)
-cv2.createTrackbar('Threshold2', 'Parameters', 0, 255, empty)
-cv2.createTrackbar('Area', 'Parameters', 5000, 30000, empty)
 
 
 def stackImages(scale, imgArray):
@@ -104,4 +117,10 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-
+if __name__ == '__main__':
+    try:
+        rospy.init_node('person_detector', anonymous=True)
+        ContourDetector()
+        rospy.spin()
+    except rospy.ROSInterruptException:
+        pass
