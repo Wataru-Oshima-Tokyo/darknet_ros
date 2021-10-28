@@ -115,7 +115,7 @@ class ContourDetector():
 if __name__ == '__main__':
     try:
         rospy.init_node('person_detector', anonymous=True)
-        ContourDetector()
+        cd = ContourDetector()
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
