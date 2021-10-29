@@ -7,7 +7,7 @@ import threading
 import rospy
 from sensor_msgs.msg import Image, CameraInfo
 from std_msgs.msg import String
-from cv_brdige import CvBridge, CvBridgeError
+from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import numpy as np
 
@@ -109,6 +109,7 @@ class ContourDetector():
 
             imgStack = self.stackImages(0.8, ([img, imgBlur, imgGray],[imgCanny, imgDil, imgContour]))
             cv2.imshow('Result', imgStack)
+            cv2.waitKey(1)
         except CvBridgeError, e:
             rospy.logerr(e)
 
