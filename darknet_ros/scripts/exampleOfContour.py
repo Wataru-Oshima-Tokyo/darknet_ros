@@ -87,6 +87,7 @@ class ContourDetector():
                             (0, 255, 0), 2)
                 cv2.putText(imgContour, "Area: " + str(int(area)), (x + w + 20, y + 45), cv2.FONT_HERSHEY_COMPLEX, 0.7,
                             (0, 255, 0), 2)
+                            
     def CamRgbImageCallback(self,rgb_image_data):
         try:
             img = self.cv_bridge.imgmsg_to_cv2(rgb_image_data, 'passthrough')

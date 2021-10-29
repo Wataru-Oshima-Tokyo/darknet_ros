@@ -204,7 +204,7 @@ add_dependencies(${PROJECT_NAME}_lib
 )
 
 
-catkin_install_python(PROGRAMS scripts/person_recognition_3d.py scripts/exampleOfContour.py
+catkin_install_python(PROGRAMS scripts/person_recognition_3d.py scripts/exampleOfContour.py scripts/background_remover.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 add_executable(cmd_vel_Node src/getDistance_sendCmd.cpp)
