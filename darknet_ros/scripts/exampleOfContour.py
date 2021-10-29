@@ -1,10 +1,10 @@
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 import threading
 
 import rospy
-
 from sensor_msgs.msg import Image, CameraInfo
 from std_msgs.msg import String
 from cv_brdige import CvBridge, CvBridgeError
