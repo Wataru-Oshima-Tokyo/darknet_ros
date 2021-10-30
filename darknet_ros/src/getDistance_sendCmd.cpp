@@ -86,8 +86,6 @@ class getAndSend{
 int main(int argc, char **argv)
 {
     //initialize
-    int16_t veclocity*;
-    int16_t angular_v*;
     ros::init(argc, argv, "cmd_to_zumo");
     getAndSend GAS;
 
