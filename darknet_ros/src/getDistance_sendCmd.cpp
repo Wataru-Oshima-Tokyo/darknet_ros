@@ -66,7 +66,7 @@ class getAndSend{
                 std::cout << e.what() << std::endl;
             }
             //ROS_INFO(cmd_vel.linear.x);
-            cmd_vel.linear.x = veclocity;
+            cmd_vel.linear.x = 0;
             cmd_vel_pub.publish(cmd_vel);
         }
     private:
