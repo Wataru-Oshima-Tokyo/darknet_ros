@@ -48,7 +48,7 @@ class PersonDetector():
         if self.person_bbox.probability > 0.0 :
             center_screen_x = 480/2
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
-            center_x, center_y= (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2, (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2
+            center_x, center_y= (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2, (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2
             min_x, min_y = center_x-20, center_y-20
             max_x, max_y = center_x+20, center_y+20
             diff_x = center_screen_x - center_x
