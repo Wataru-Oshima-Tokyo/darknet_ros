@@ -47,14 +47,18 @@ class PersonDetector():
         if self.person_bbox.probability > 0.0 :
 
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
-            # m_person_depth = self.m_depth_image[(int)(self.person_bbox.ymax+self.person_bbox.ymin)/2][(int)(self.person_bbox.xmax+self.person_bbox.xmin)/2]
-            try:
+            center_x, center_y= (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2, (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2
+            min_x, min_y = center_x-10, center_y-10
+            max_x, max_y = center_x+10, center_y+10
+            
+	    try:
                 # boxArray = np.array[(int)(self.person_bbox.xmin):(int)(self.person_bbox.xmax), (int)(self.person_bbox.ymin):(int)(self.person_bbox.ymax)]
+                m_person_depth = self.m_depth_image[center_x][center_y]
                 distance =[]
-                for i in range(self.person_bbox.xmin, self.person_bbox.xmax):
-                    for j in range(self.person_bbox.ymin, self.person_bbox.ymax):
-                        if self.m_depth_image[int(i)][int(j)] !=0 and self.m_depth_image[int(i)][int(j)] <2000:
-                            distance.append(self.m_depth_image[int(i)][int(j)])
+                for i in range(min_x, max_x):
+                    for j in range(min_y, max_y):
+                        #if self.m_depth_image[int(i)][int(j)] !=0 and self.m_depth_image[int(i)][int(j)] <2000:
+                        distance.append(self.m_depth_image[int(i)][int(j)])
                 m_person_depth = median(distance)
             except Exception as e:
                 print(e)
