@@ -45,7 +45,7 @@ class PersonDetector():
         rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
         # 人がいる場合
-        if self.person_bbox.probability > 30.0 :
+        if self.person_bbox.probability > .3 :
             center_screen_x = 480/2
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
             center_x, center_y= (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2, (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2
