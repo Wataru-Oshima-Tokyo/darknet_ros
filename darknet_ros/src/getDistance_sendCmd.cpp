@@ -23,11 +23,11 @@ class getAndSend{
                 double distance = std::stod(msg->data.c_str());
                 if (distance <= 1200 && distance > 100)
                 {
-                    velocity = -1;
+                    velocity = -0.3;
                 }
                 else if (distance > 2000)
                 {
-                    velocity = 1;
+                    velocity = 0.3;
                 }else {
                     velocity = 0;     
                 }
