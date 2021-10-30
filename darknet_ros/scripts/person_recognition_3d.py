@@ -33,7 +33,7 @@ class PersonDetector():
         self.sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
         self.image_pub          =  rospy.Publisher('/camera/yolo/image_raw', Image, queue_size=1)
         self.distance           =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
-        self.direction          =  rospy.Publisher('/camera/yolo/distance', Image, queue_size=1)
+        self.direction          =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
         return
 
     def CamRgbImageCallback(self, rgb_image_data):
@@ -46,12 +46,12 @@ class PersonDetector():
 
         # 人がいる場合
         if self.person_bbox.probability > 0.0 :
-            max_screen_x = 680
+            max_screen_x = 480
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
             center_x, center_y= (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2, (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2
             min_x, min_y = center_x-20, center_y-20
             max_x, max_y = center_x+20, center_y+20
-            diff_x = max_screen_x - 0
+            diff_x = max_screen_x - center_x
 	    try:
                 # boxArray = np.array[(int)(self.person_bbox.xmin):(int)(self.person_bbox.xmax), (int)(self.person_bbox.ymin):(int)(self.person_bbox.ymax)]
                 m_person_depth = self.m_depth_image[center_x][center_y]
@@ -76,7 +76,7 @@ class PersonDetector():
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
             self.distance.publish(str(m_person_depth))
             self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
-            self.direction.publish(self.cv_bridge.cv2_to_compressed_imgmsg(rgb_image[680][0]))
+            self.direction.publish(str(diff_x))
 #         cv2.namedWindow("rgb_image")
 #         cv2.imshow("rgb_image", rgb_image)
 #         cv2.waitKey(10)
