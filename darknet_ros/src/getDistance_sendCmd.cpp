@@ -20,11 +20,11 @@ class getAndSend{
             try
             {
                 double distance = std::stod(msg->data.c_str());
-                if (distance <= 1000 && distance > 100)
+                if (distance <= 1200 && distance > 100)
                 {
                     cmd_vel.linear.x = -1;
                 }
-                else if (distance > 1500)
+                else if (distance > 2000)
                 {
                     cmd_vel.linear.x = 1;
                 }else {
