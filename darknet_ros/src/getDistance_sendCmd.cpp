@@ -48,9 +48,9 @@ class getAndSend{
             geometry_msgs::Twist cmd_vel;
             try
             {
-                int16_t capability = 240*0.1;
+                int16_t capability = 240*0.2;
                 double direction = std::stod(msg->data.c_str());
-                if (direction < -capability)
+                if (direction < -capability )
                 {
                     cmd_vel.angular.z = -0.3;
                 }
@@ -64,6 +64,9 @@ class getAndSend{
             catch (const std::exception& e)
             {
                 std::cout << e.what() << std::endl;
+            }
+            if(velocity <0){
+                cmd_vel.angular.z *= -1; 
             }
             //ROS_INFO(cmd_vel.linear.x);
             cmd_vel.linear.x = 0;
