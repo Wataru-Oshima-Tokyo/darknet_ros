@@ -26,13 +26,13 @@ class getAndSend{
                 double distance = std::stod(msg->data.c_str());
                 if (distance <= 1200 && distance > 100)
                 {
-                    veclocity = -1;
+                    velocity = -1;
                 }
                 else if (distance > 2000)
                 {
-                    veclocity = 1;
+                    velocity = 1;
                 }else {
-                    veclocity = 0;     
+                    velocity = 0;     
                 }
             }
             catch (const std::exception& e)
@@ -69,14 +69,14 @@ class getAndSend{
                 cmd_vel.angular.z *= -1; 
             }
             //ROS_INFO(cmd_vel.linear.x);
-            cmd_vel.linear.x = 0;
+            cmd_vel.linear.x = velocity;
             cmd_vel_pub.publish(cmd_vel);
         }
     private:
         ros::NodeHandle n;
         ros::Publisher cmd_vel_pub;
         ros::Subscriber distance_sub, direction_sub;
-        int16_t veclocity = 0;
+        int16_t velocity = 0;
         int16_t angular_v = 0;
 };
 
