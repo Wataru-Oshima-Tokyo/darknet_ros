@@ -33,7 +33,7 @@ class PersonDetector():
         self.sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
         self.image_pub          =  rospy.Publisher('/camera/yolo/image_raw', Image, queue_size=1)
         self.distance           =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
-        self.direction          =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
+        self.direction          =  rospy.Publisher('/camera/yolo/direction', String, queue_size=1)
         return
 
     def CamRgbImageCallback(self, rgb_image_data):
