@@ -14,9 +14,6 @@ class getAndSend{
         direction_sub = n.subscribe("/camera/yolo/direction", 1000, &getAndSend::angular_Callback, this);
     }
     
-    int getVelocity(){
-        return getAndSend::veclocity;
-    }
     void velocity_Callback(const std_msgs::String::ConstPtr &msg)
         {
             
