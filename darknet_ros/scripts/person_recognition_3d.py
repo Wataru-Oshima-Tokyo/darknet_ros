@@ -5,6 +5,8 @@
 import os
 import threading
 
+from numpy.lib.function_base import median
+
 # This import is for ROS integration
 import rospy
 from sensor_msgs.msg import Image,CameraInfo
@@ -45,8 +47,20 @@ class PersonDetector():
         if self.person_bbox.probability > 0.0 :
 
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
-            m_person_depth = self.m_depth_image[(int)(self.person_bbox.ymax+self.person_bbox.ymin)/2][(int)(self.person_bbox.xmax+self.person_bbox.xmin)/2]
-
+            # m_person_depth = self.m_depth_image[(int)(self.person_bbox.ymax+self.person_bbox.ymin)/2][(int)(self.person_bbox.xmax+self.person_bbox.xmin)/2]
+            try:
+                # boxArray = np.array[(int)(self.person_bbox.xmin):(int)(self.person_bbox.xmax), (int)(self.person_bbox.ymin):(int)(self.person_bbox.ymax)]
+                distance =[]
+                for i in range(self.person_bbox.xmin, self.person_bbox.xmax):
+                    for j in range(self.person_bbox.ymin, self.person_bbox.ymax):
+                        if self.m_depth_image[int(i)][int(j)] !=0 and self.m_depth_image[int(i)][int(j)] <2000:
+                            distance.append(self.m_depth_image[int(i)][int(j)])
+                m_person_depth = median(distance)
+            except Exception as e:
+                print(e)
+                m_person_depth = median(distance)
+                pass
+            
             cv2.rectangle(rgb_image, (self.person_bbox.xmin, self.person_bbox.ymin), (self.person_bbox.xmax, self.person_bbox.ymax),(0,0,255), 2)
             rospy.loginfo('Class : person, Score: %.2f, Dist: %dmm ' %(self.person_bbox.probability, m_person_depth))
             text = "person " +('%dmm' % m_person_depth)

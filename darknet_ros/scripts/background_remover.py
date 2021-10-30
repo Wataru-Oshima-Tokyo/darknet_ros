@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import threading
 
@@ -23,12 +25,12 @@ class PersonContourDetector():
  
 
     def remove_bg(self, rgb_image_data):
-        BLUR = 21,
-        CANNY_THRESH_1 = 10,
-        CANNY_THRESH_2 = 200,
-        MASK_DILATE_ITER = 10,
-        MASK_ERODE_ITER = 10,
-        MASK_COLOR = (0.0,0.0,1.0),
+        BLUR = 21
+        CANNY_THRESH_1 = 10
+        CANNY_THRESH_2 = 200
+        MASK_DILATE_ITER = 10
+        MASK_ERODE_ITER = 10
+        MASK_COLOR = (0.0,0.0,1.0)
         try:
             img = self.cv_bridge.imgmsg_to_cv2(rgb_image_data, 'passthrough')
         except CvBridgeError, e:
@@ -37,7 +39,12 @@ class PersonContourDetector():
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
         #find the edge
+        threshold1 = cv2.getTrackbarPos('Threshold1', 'Parameters')
+        threshold2 = cv2.getTrackbarPos('Threshold2', 'Parameters')
         edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
+        # Dialation
+        # kernel = np.ones((5, 5))
+        # edges = cv2.dilate(edges, kernel=kernel, iterations=1)
         edges = cv2.dilate(edges, None)
         edges = cv2.erode(edges, None)
         
@@ -64,7 +71,7 @@ class PersonContourDetector():
         mask = cv2.GaussianBlur(mask, (BLUR, BLUR), 0)
         mask_stack = np.dstack([mask]*3)    # Create 3-channel alpha mask
 
-        
+
         mask_stack  = mask_stack.astype('float32') / 255.0          # Use float matrices, 
         img         = img.astype('float32') / 255.0                 #  for easy blending
 
@@ -76,7 +83,8 @@ class PersonContourDetector():
         img_a = cv2.merge((c_red, c_green, c_blue, mask.astype('float32') / 255.0))
 
 
-        cv2.imshow('Resutl', img_a)
+        cv2.imshow('Resutl', mask)
+        cv2.waitKey(1)
         return img_a
 if __name__ == '__main__':
     try:
