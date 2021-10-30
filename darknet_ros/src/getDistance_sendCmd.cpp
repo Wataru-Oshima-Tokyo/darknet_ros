@@ -50,11 +50,11 @@ class getAndSend{
             {
                 int16_t capability = 240*0.1;
                 double direction = std::stod(msg->data.c_str());
-                if (direction < 0)
+                if (direction < -capability)
                 {
                     cmd_vel.angular.z = -0.3;
                 }
-                else if (direction >0 )
+                else if (direction >capability)
                 {
                     cmd_vel.angular.z = 0.3;
                 }else {
