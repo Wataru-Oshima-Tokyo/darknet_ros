@@ -23,11 +23,11 @@ class getAndSend{
                 double distance = std::stod(msg->data.c_str());
                 if (distance <= 1200 && distance > 100)
                 {
-                    velocity = -0.3;
+                    velocity = -0.2;
                 }
                 else if (distance > 2000)
                 {
-                    velocity = 0.3;
+                    velocity = 0.2;
                 }else {
                     velocity = 0;     
                 }
@@ -45,15 +45,15 @@ class getAndSend{
             geometry_msgs::Twist cmd_vel;
             try
             {
-                int16_t capability = 240*0.2;
+                int16_t capability = 240*0.3;
                 double direction = std::stod(msg->data.c_str());
                 if (direction < -capability )
                 {
-                    cmd_vel.angular.z = -0.3;
+                    cmd_vel.angular.z = -0.1;
                 }
                 else if (direction >capability)
                 {
-                    cmd_vel.angular.z = 0.3;
+                    cmd_vel.angular.z = 0.1;
                 }else {
                     cmd_vel.angular.z = 0;     
                 }
