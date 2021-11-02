@@ -52,10 +52,11 @@ class PersonDetector():
             min_x, min_y = center_x-20, center_y-20
             max_x, max_y = center_x+20, center_y+20
             diff_x = center_screen_x - center_x
+	    m_person_depth = self.m_depth_image[center_x][center_y]
+            distance =[]
+	    distance.append(m_person_depth)
 	    try:
                 # boxArray = np.array[(int)(self.person_bbox.xmin):(int)(self.person_bbox.xmax), (int)(self.person_bbox.ymin):(int)(self.person_bbox.ymax)]
-                m_person_depth = self.m_depth_image[center_x][center_y]
-                distance =[]
                 for i in range(min_x, max_x):
                     for j in range(min_y, max_y):
                         #if self.m_depth_image[int(i)][int(j)] !=0 and self.m_depth_image[int(i)][int(j)] <2000:
