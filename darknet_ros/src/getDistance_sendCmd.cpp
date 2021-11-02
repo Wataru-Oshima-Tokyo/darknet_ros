@@ -11,7 +11,7 @@ class getAndSend{
         cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
 
         distance_sub = n.subscribe("/camera/yolo/distance", 1000, &getAndSend::velocity_Callback, this);
-        //direction_sub = n.subscribe("/camera/yolo/direction", 1000, &getAndSend::angular_Callback, this);
+        direction_sub = n.subscribe("/camera/yolo/direction", 1000, &getAndSend::angular_Callback, this);
     }
     
     void velocity_Callback(const std_msgs::String::ConstPtr &msg)
