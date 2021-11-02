@@ -73,7 +73,7 @@ class getAndSend{
         ros::NodeHandle n;
         ros::Publisher cmd_vel_pub;
         ros::Subscriber distance_sub, direction_sub;
-        int16_t* velocity = 0;
+        double* velocity = 0;
         int16_t angular_v = 0;
 };
 
