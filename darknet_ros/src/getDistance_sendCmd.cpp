@@ -66,7 +66,7 @@ class getAndSend{
                 cmd_vel.angular.z *= -1; 
             }
             //ROS_INFO(cmd_vel.linear.x);
-            cmd_vel.linear.x = velocity;
+            cmd_vel.linear.x = &velocity;
             cmd_vel_pub.publish(cmd_vel);
         }
     private:
