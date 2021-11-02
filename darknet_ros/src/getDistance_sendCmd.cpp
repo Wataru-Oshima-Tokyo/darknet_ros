@@ -37,8 +37,8 @@ class getAndSend{
                 std::cout << e.what() << std::endl;
             }
             //ROS_INFO(cmd_vel.linear.x);
-            cmd_vel.linear.x = velocity;
-            cmd_vel_pub.publish(cmd_vel);
+            //cmd_vel.linear.x = velocity;
+            //cmd_vel_pub.publish(cmd_vel);
         }
     void angular_Callback(const std_msgs::String::ConstPtr &msg)
         {
@@ -67,7 +67,7 @@ class getAndSend{
                 cmd_vel.angular.z *= -1; 
             }
             //ROS_INFO(cmd_vel.linear.x);
-            //cmd_vel.linear.x = velocity;
+            cmd_vel.linear.x = velocity;
             cmd_vel_pub.publish(cmd_vel);
         }
     private:
@@ -86,7 +86,7 @@ class getAndSend{
 int main(int argc, char **argv)
 {
     //initialize
-    ros::init(argc, argv, "cmd_to_zumo");
+    ros::init(argc, argv, "cmd_to_turtlebot3");
     getAndSend GAS;
 
     //ros::NodeHandle n;
