@@ -37,6 +37,7 @@ class getAndSend{
                 std::cout << e.what() << std::endl;
             }
             //ROS_INFO(cmd_vel.linear.x);
+            cmd_vel.linear.x = velocity;
             cmd_vel_pub.publish(cmd_vel);
         }
     void angular_Callback(const std_msgs::String::ConstPtr &msg)
