@@ -23,11 +23,11 @@ class getAndSend{
                 double distance = std::stod(msg->data.c_str());
                 if (distance <= 1200 && distance > 100)
                 {
-                    velocity = -0.2;
+                    velocity = -0.1;
                 }
                 else if (distance > 2000)
                 {
-                    velocity = 0.2;
+                    velocity = 0.1;
                 }else {
                     velocity = 0;     
                 }
@@ -37,7 +37,7 @@ class getAndSend{
                 std::cout << e.what() << std::endl;
             }
             //ROS_INFO(cmd_vel.linear.x);
-            // cmd_vel_pub.publish(cmd_vel);
+            cmd_vel_pub.publish(cmd_vel);
         }
     void angular_Callback(const std_msgs::String::ConstPtr &msg)
         {
@@ -66,7 +66,7 @@ class getAndSend{
                 cmd_vel.angular.z *= -1; 
             }
             //ROS_INFO(cmd_vel.linear.x);
-            cmd_vel.linear.x = velocity;
+            //cmd_vel.linear.x = velocity;
             cmd_vel_pub.publish(cmd_vel);
         }
     private:
@@ -74,7 +74,6 @@ class getAndSend{
         ros::Publisher cmd_vel_pub;
         ros::Subscriber distance_sub, direction_sub;
         double velocity = 0;
-        int16_t angular_v = 0;
 };
 
 
