@@ -46,6 +46,7 @@ class PersonDetector():
 
         # 人がいる場合
 	m_person_depth = 0
+	diff_x = 0
         if self.person_bbox.probability > 0.0 :
             center_screen_x = 240 #(480/2)
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
