@@ -45,21 +45,24 @@ class PersonDetector():
         rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
         # 人がいる場合
+	m_person_depth = 0
+	diff_x = 0
         if self.person_bbox.probability > 0.0 :
-            center_screen_x = 480/2
+            center_screen_x = 240 #(480/2)
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
-            center_x, center_y= (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2, (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2
+            center_x, center_y= (int)(self.person_bbox.xmax+self.person_bbox.xmin)/2, (int)(self.person_bbox.ymax+self.person_bbox.ymin)/2
             min_x, min_y = center_x-20, center_y-20
             max_x, max_y = center_x+20, center_y+20
             diff_x = center_screen_x - center_x
+
 	    try:
                 # boxArray = np.array[(int)(self.person_bbox.xmin):(int)(self.person_bbox.xmax), (int)(self.person_bbox.ymin):(int)(self.person_bbox.ymax)]
-                m_person_depth = self.m_depth_image[center_x][center_y]
                 distance =[]
-                for i in range(min_x, max_x):
+		for i in range(min_x, max_x):
                     for j in range(min_y, max_y):
                         #if self.m_depth_image[int(i)][int(j)] !=0 and self.m_depth_image[int(i)][int(j)] <2000:
                         distance.append(self.m_depth_image[int(i)][int(j)])
+         	m_person_depth = self.m_depth_image[center_x][center_y]
                 m_person_depth = median(distance)
             except Exception as e:
                 print(e)
@@ -74,9 +77,9 @@ class PersonDetector():
             text_pos = (self.person_bbox.xmin + 5, self.person_bbox.ymin)
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
-            self.distance.publish(str(m_person_depth))
-            self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
-            self.direction.publish(str(diff_x))
+	    self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
+)
+	
 #         cv2.namedWindow("rgb_image")
 #         cv2.imshow("rgb_image", rgb_image)
 #         cv2.waitKey(10)
@@ -84,7 +87,8 @@ class PersonDetector():
 #         cv2.namedWindow("depth_image")
 #         cv2.imshow("depth_image", self.m_depth_image)
 #         cv2.waitKey(10)
-          
+        self.distance.publish(str(m_person_depth))  
+        self.direction.publish(str(diff_x)
         return
 
 
