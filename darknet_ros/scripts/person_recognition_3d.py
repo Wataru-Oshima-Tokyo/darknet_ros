@@ -45,6 +45,7 @@ class PersonDetector():
         rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
         # 人がいる場合
+	m_person_depth = 0
         if self.person_bbox.probability > 0.0 :
             center_screen_x = 240 #(480/2)
            # 一旦、BoundingBoxの中心位置の深度を取得 (今後改善予定）
@@ -75,9 +76,10 @@ class PersonDetector():
             text_pos = (self.person_bbox.xmin + 5, self.person_bbox.ymin)
             cv2.rectangle(rgb_image, text_top, text_bot, (0,0,0),-1)
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
-            self.distance.publish(str(m_person_depth))
-            self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
-            self.direction.publish(str(diff_x))
+	    self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
+          self.distance.publish(str(m_person_depth))  
+          self.direction.publish(str(diff_x))
+	
 #         cv2.namedWindow("rgb_image")
 #         cv2.imshow("rgb_image", rgb_image)
 #         cv2.waitKey(10)
