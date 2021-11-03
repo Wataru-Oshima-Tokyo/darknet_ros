@@ -11,7 +11,7 @@ class getAndSend{
         cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
 
         distance_sub = n.subscribe("/camera/yolo/distance", 1000, &getAndSend::velocity_Callback, this);
-        direction_sub = n.subscribe("/camera/yolo/direction", 1000, &getAndSend::angular_Callback, this)
+        direction_sub = n.subscribe("/camera/yolo/direction", 1000, &getAndSend::angular_Callback, this);
     }
     
     int getVelocity(){
@@ -52,13 +52,13 @@ class getAndSend{
                 double direction = std::stod(msg->data.c_str());
                 if (direction < 0)
                 {
-                    cmd_vel.angular.z = -0.3;
+                    cmd_vel.angular.z = -0.1;
                 }
                 else if (direction >0 )
                 {
-                    cmd_vel.angular.z = 0.3;
+                    cmd_vel.angular.z = 0.1;
                 }else {
-                    cmd_vel.angular.z = 0;     
+                    cmd_vel.angular.z = 0;
                 }
             }
             catch (const std::exception& e)
@@ -73,6 +73,7 @@ class getAndSend{
         ros::NodeHandle n;
         ros::Publisher cmd_vel_pub;
         ros::Subscriber distance_sub;
+	ros::Subscriber direction_sub;
         int16_t veclocity = 0;
         int16_t angular_v = 0;
 };
