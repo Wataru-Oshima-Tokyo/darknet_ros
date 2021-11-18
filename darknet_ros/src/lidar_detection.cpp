@@ -50,7 +50,7 @@ class Lidar_detection{
             // string chatter;
             double center_number = (-msg->angle_min)/msg->angle_increment;
             double angle_min = (msg->angle_min)/msg->angle_increment;
-            double angle_max = (msg->angle_max)/msg->angle_increment;
+            double angle_max = (-msg->angle_min)/msg->angle_increment;
             double center=msg->ranges[center_number+180];
             double left=msg->ranges[center_number+128];
             double right=msg->ranges[center_number-128];
@@ -119,26 +119,26 @@ class Lidar_detection{
             }
             
             //left front
-            if(min1<0.7){
+            if(min1<1){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
             }
             //left back
-            if(min2<0.7){
-                cmd_vel.linear.x = -0.2;
+            if(min2<1){
+                cmd_vel.linear.x = 0.0;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.2;
 
             }
             //right back
-            if(min3<0.7){
-                cmd_vel.linear.x = -0.2;
+            if(min3<1){
+                cmd_vel.linear.x = 0.0;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = -0.2;
             }
             //right front
-            if(min4<0.7){
+            if(min4<1){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
