@@ -120,26 +120,26 @@ class Lidar_detection{
             }
             
             //left front
-            if(min1<0.7){
+            if(min1<0.5){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
             }
             //left back
-            if(min2<0.7){
-                cmd_vel.linear.x = -0.2;
+            if(min2<0.5){
+                cmd_vel.linear.x = 0.0;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.2;
 
             }
             //right back
-            if(min3<0.7){
-                cmd_vel.linear.x = -0.2;
+            if(min3<0.5){
+                cmd_vel.linear.x = 0.0;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = -0.2;
             }
             //right front
-            if(min4<0.7){
+            if(min4<0.5){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
