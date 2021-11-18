@@ -21,17 +21,14 @@ class Lidar_detection{
 
     }
 
-    double meanWithoutInf(vector<double> vec){
-        double result=0;
-        int size=0;
+    vector<double> meanWithoutInf(vector<double> vec){
+        vector<double> result;
         for (int i = 0; i < vec.size(); i++)
         {
-            if(vec[i]<10){
-                result += vec[i];
-                size++;
+            if(vec[i]<10 && vec[i] > 0.4){
+                result.push_back(vec[i]);
             }
         }
-        result = result/size;
         return result;
     }
 
@@ -50,7 +47,7 @@ class Lidar_detection{
             // string chatter;
             double center_number = (-msg->angle_min)/msg->angle_increment;
             double angle_min = (msg->angle_min)/msg->angle_increment;
-            double angle_max = (-msg->angle_min)/msg->angle_increment;
+            double angle_max = (msg->angle_max)/msg->angle_increment;
             double center=msg->ranges[center_number+180];
             double left=msg->ranges[center_number+128];
             double right=msg->ranges[center_number-128];
@@ -100,14 +97,18 @@ class Lidar_detection{
                 // sort(q2.begin(), q2.end());
                 // sort(q3.begin(), q3.end());
                 // sort(q4.begin(), q4.end());
-                min1 = meanWithoutInf(q1);
-                min2 = meanWithoutInf(q2);
-                min3 = meanWithoutInf(q3);
-                min4 = meanWithoutInf(q4);
-                // min1 = q1[q1.size()/2-1];
-                // min2 = q2[q2.size()/2-1];
-                // min3 = q3[q3.size()/2-1];
-                // min4 = q4[q4.size()/2-1];
+                q1 = meanWithoutInf(q1);
+                q2 = meanWithoutInf(q2);
+                q3 = meanWithoutInf(q3);
+                q4 = meanWithoutInf(q4);
+                auto sm1 = min_element(q1.begin(), q1.end());
+                auto sm2 = min_element(q2.begin(), q2.end());
+                auto sm3 = min_element(q3.begin(), q3.end());
+                auto sm4 = min_element(q4.begin(), q4.end());
+                min1 = *sm1;
+                min2 = *sm2;
+                min3 = *sm3;
+                min4 = *sm4;
                 angles << " left front: " << min1
                 << "// " << "left back: " << min2
                 << "// " << "right back: " << min3
@@ -119,26 +120,26 @@ class Lidar_detection{
             }
             
             //left front
-            if(min1<1){
+            if(min1<0.7){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
             }
             //left back
-            if(min2<1){
-                cmd_vel.linear.x = 0.0;
+            if(min2<0.7){
+                cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.2;
 
             }
             //right back
-            if(min3<1){
-                cmd_vel.linear.x = 0.0;
+            if(min3<0.7){
+                cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = -0.2;
             }
             //right front
-            if(min4<1){
+            if(min4<0.7){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
