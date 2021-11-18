@@ -108,37 +108,40 @@ class Lidar_detection{
                 // min2 = q2[q2.size()/2-1];
                 // min3 = q3[q3.size()/2-1];
                 // min4 = q4[q4.size()/2-1];
-                angles << " 0 ~90: " << min1
-                << "// " << "90~ 180: " << min2
-                << "// " << "180~ 270: " << min3
-                << "// " << "270~ 360: " << min4;
+                angles << " left front: " << min1
+                << "// " << "left back: " << min2
+                << "// " << "right back: " << min3
+                << "// " << "right front: " << min4;
             }
             catch(const std::exception& e)
             {
 
             }
             
+            //left front
+            if(min1<0.7){
+                cmd_vel.linear.x = -0.2;
+                cmd_vel.linear.y = 0.0;
+                cmd_vel.angular.z = 0.0;
+            }
+            //left back
+            if(min2<0.7){
+                cmd_vel.linear.x = -0.2;
+                cmd_vel.linear.y = 0.0;
+                cmd_vel.angular.z = 0.2;
 
-            if(min1<0.5){
-                cmd_vel.linear.x = -0.2;
-                cmd_vel.linear.y = 0.0;
-                cmd_vel.linear.z = 0.0;
             }
-            if(min2<0.5){
+            //right back
+            if(min3<0.7){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
-                cmd_vel.linear.z = 0.2;
-
+                cmd_vel.angular.z = -0.2;
             }
-            if(min3<0.5){
+            //right front
+            if(min4<0.7){
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
-                cmd_vel.linear.z = -0.0;
-            }
-            if(min4<0.5){
-                cmd_vel.linear.x = -0.2;
-                cmd_vel.linear.y = 0.0;
-                cmd_vel.linear.z = -0.2;
+                cmd_vel.angular.z = 0.0;
 
             }
             // chatter +="center ";
