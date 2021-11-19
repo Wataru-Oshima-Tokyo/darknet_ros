@@ -23,6 +23,7 @@
     <param name="config_path"           value="$(arg yolo_config_path)" />
     <remap from="camera/rgb/image_raw"  to="$(arg image)" />
   </node>
+
   <node name="darknet_ros_3d" pkg="darknet_ros" type="person_recognition_3d.py" output="screen"></node>
   <node name="sendDistance" pkg="darknet_ros" type="cmd_vel_Node" clear_params="true" />
   <node name="lidarDetect" pkg="darknet_ros" type="lidar_Node" clear_params="true" />
