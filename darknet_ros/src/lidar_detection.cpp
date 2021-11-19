@@ -17,7 +17,7 @@ class Lidar_detection{
     Lidar_detection(){
         cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
         lidar_sub = n.subscribe("/scan", 1000, &Lidar_detection::lidar_callback, this);
-        message_pub = n.advertise<std_msgs::String>("/scan/degree", 1000);
+        message_pub = n.advertise<std_msgs::String>("/scan/angle", 1000);
 
     }
 
