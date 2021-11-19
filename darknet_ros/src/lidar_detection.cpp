@@ -89,14 +89,6 @@ class Lidar_detection{
 
             try
             {
-                // auto sm1 = min_element(q1.begin(), q1.end());
-                // auto sm2 = min_element(q2.begin(), q2.end());
-                // auto sm3 = min_element(q3.begin(), q3.end());
-                // auto sm4 = min_element(q4.begin(), q4.end());
-                // sort(q1.begin(), q1.end());
-                // sort(q2.begin(), q2.end());
-                // sort(q3.begin(), q3.end());
-                // sort(q4.begin(), q4.end());
                 q1 = meanWithoutInf(q1);
                 q2 = meanWithoutInf(q2);
                 q3 = meanWithoutInf(q3);
@@ -143,15 +135,15 @@ class Lidar_detection{
                 cmd_vel.linear.x = -0.2;
                 cmd_vel.linear.y = 0.0;
                 cmd_vel.angular.z = 0.0;
-
             }
-            // chatter +="center ";
-            // chatter += center;
+//             if(min1<0.5 && min1<0.5 &&  min1<0.5 &&  min1<0.5 &&){
+//                 cmd_vel.linear.x = 0.2;
+//                 cmd_vel.linear.y = 0.0;
+//                 cmd_vel.angular.z = 0.0;
+//             }
+
             
             msg_data.data = angles.str();
-            // msg_data.data = chatter.c_str();
-
-            //ROS_INFO(cmd_vel.linear.x);
             message_pub.publish(msg_data);
             cmd_vel_pub.publish(cmd_vel);
 
