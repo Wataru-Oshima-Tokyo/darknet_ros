@@ -28,8 +28,8 @@ class PersonDetector():
         self.m_pub_threshold = rospy.get_param('~pub_threshold', 0.40)
 
         # Subscribe
-        self.sub_camera_rgb     =  rospy.Subscriber('/camera/color/image_raw', Image, self.CamRgbImageCallback)
-        self.sub_camera_depth   =  rospy.Subscriber('/camera/aligned_depth_to_color/image_raw', Image, self.CamDepthImageCallback)
+        self.sub_camera_rgb     =  rospy.Subscriber('/camera/color/image', Image, self.CamRgbImageCallback)
+        self.sub_camera_depth   =  rospy.Subscriber('/camera/depth/image', Image, self.CamDepthImageCallback)
         self.sub_darknet_bbox   =  rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, self.DarknetBboxCallback)
         self.image_pub          =  rospy.Publisher('/camera/yolo/image_raw', Image, queue_size=1)
         self.distance           =  rospy.Publisher('/camera/yolo/distance', String, queue_size=1)
