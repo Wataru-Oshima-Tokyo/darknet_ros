@@ -160,6 +160,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
   void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
     darknet_ros_msgs::BoundingBox detect_box;
     if (!(bb.bounding_boxes.empty())){
+      std::cout << "detected sth" << std::endl;
       rep(i,0,bb.bounding_boxes.size()){
         if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 30){
           detect_box = bb.bounding_boxes[i];
