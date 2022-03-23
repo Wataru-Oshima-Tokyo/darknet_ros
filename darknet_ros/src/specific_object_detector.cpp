@@ -115,7 +115,7 @@ bool DETECTOBJ::getRun(){
 }
 
 void DETECTOBJ::detect_object(int, void*){
-  std::cout << "detected " << std::endl;
+  // std::cout << "detected " << std::endl;
 }
 
 
@@ -164,6 +164,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
         if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 30){
           detect_box = bb.bounding_boxes[i];
           detected =true;
+          std::cout << "detected" <<std::endl;
         } 
       }
       detected_object = detect_box;
