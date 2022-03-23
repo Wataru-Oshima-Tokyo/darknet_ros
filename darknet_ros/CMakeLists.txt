@@ -59,7 +59,7 @@ find_package(catkin REQUIRED
     darknet_ros_msgs
     image_transport
     nodelet
-    camera_pkg
+    #camera_pkg
 )
 
 # Enable OPENCV in darknet
