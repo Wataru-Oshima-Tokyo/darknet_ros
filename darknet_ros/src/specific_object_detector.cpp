@@ -288,7 +288,7 @@ int main( int argc, char** argv )
    cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &CAMERA_CV::calibration_stop_service, &cc);
    cc.calibration_start = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_START);
    cc.calibration_stop = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_STOP);
-   cc.pub = cc.nh.advertise<camera_pkg::Coordinate>(cc.PUBLISH_TOPIC, 1000);
+//    cc.pub = cc.nh.advertise<camera_pkg::Coordinate>(cc.PUBLISH_TOPIC, 1000);
    std_srvs::Empty _emp;
    while(ros::ok()){
       // cout << cc.getRun() << endl;
