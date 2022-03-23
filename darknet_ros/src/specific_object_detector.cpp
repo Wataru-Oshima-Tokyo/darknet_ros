@@ -115,7 +115,7 @@ bool DETECTOBJ::getRun(){
 }
 
 void DETECTOBJ::detect_object(int, void*){
-  
+  std::cout << "detected " << std::endl;
 }
 
 
@@ -303,7 +303,7 @@ int main( int argc, char** argv )
         cc.detect_object(0,0);
       }
       if(!cc.src.empty()){
-        setMouseCallback("src", mouseEvent, &cc);
+        // setMouseCallback("src", mouseEvent, &cc);
         clock_gettime(CLOCK_MONOTONIC, &stop); fstop=(double)stop.tv_sec + ((double)stop.tv_nsec/1000000000.0);
         std::string fps= "FPS: " + std::to_string(1/(fstop-fstart));
         putText(cc.src, //target image
