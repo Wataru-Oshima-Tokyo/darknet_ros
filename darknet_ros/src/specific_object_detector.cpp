@@ -115,7 +115,7 @@ bool DETECTOBJ::getRun(){
 }
 
 void DETECTOBJ::detect_object(int, void*){
-  if(!(detected_object.empty()){
+  if(!(detected_object.empty())){
     cv::Point pt1(detect_object.xmin, detect_object.ymin);
     cv::Point pt2(detect_object.xmax, detect_object.ymax);
     cv::putText(src, "Cup", pt2, FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 185, 0), 2);
