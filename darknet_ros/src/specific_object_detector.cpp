@@ -76,11 +76,6 @@ class DETECTOBJ{
     bool getRun(); 
     const int max_lowThreshold = 100;
     const std::string window_name = "Edge Map";
-    // static constexpr char* window_name = "Edge Map";
-    // static void callback(int event, int x, int y, int flags, void* userdata) { // because the mouse call back cannot accept non-static func
-    //     CAMERA_CV *foo = (CAMERA_CV*)userdata; // cast user data back to "this"
-    //     foo->mouseEvent(event, x, y, flags, foo);
-    // }
 private:
     bool RUN = false;
     double detect_probability =0.0;
@@ -99,18 +94,7 @@ DETECTOBJ::DETECTOBJ(){
 
 DETECTOBJ::~DETECTOBJ(){};
 
-bool DETECTOBJ::getRun(){
-  std_srvs::Empty _emp;
-  // if(RUN && start_call){
-  //   // calibration_start.call(_emp);
-  //   start_call = false;
-  //   stop_call = true;
-  // }else if(!RUN && stop_call) {
-  //   // calibration_stop.call(_emp);
-  //   start_call = true;
-  //   stop_call = false;
-  // }
-    
+bool DETECTOBJ::getRun(){    
   return detected;
 }
 

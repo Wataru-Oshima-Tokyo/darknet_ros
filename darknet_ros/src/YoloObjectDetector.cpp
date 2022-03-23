@@ -570,14 +570,25 @@ void* YoloObjectDetector::publishInThread() {
           int xmax = (rosBoxes_[i][j].x + rosBoxes_[i][j].w / 2) * frameWidth_;
           int ymax = (rosBoxes_[i][j].y + rosBoxes_[i][j].h / 2) * frameHeight_;
 
-          boundingBox.Class = classLabels_[i];
-          boundingBox.id = i;
-          boundingBox.probability = rosBoxes_[i][j].prob;
-          boundingBox.xmin = xmin;
-          boundingBox.ymin = ymin;
-          boundingBox.xmax = xmax;
-          boundingBox.ymax = ymax;
-          boundingBoxesResults_.bounding_boxes.push_back(boundingBox);
+          // added an if statement
+          if(classLabels_[i]!= "cup"){
+            boundingBox.Class = classLabels_[i];
+            boundingBox.id = i;
+            boundingBox.probability = rosBoxes_[i][j].prob;
+            boundingBox.xmin = xmin;
+            boundingBox.ymin = ymin;
+            boundingBox.xmax = xmax;
+            boundingBox.ymax = ymax;
+            boundingBoxesResults_.bounding_boxes.push_back(boundingBox);
+          }
+          // boundingBox.Class = classLabels_[i];
+          // boundingBox.id = i;
+          // boundingBox.probability = rosBoxes_[i][j].prob;
+          // boundingBox.xmin = xmin;
+          // boundingBox.ymin = ymin;
+          // boundingBox.xmax = xmax;
+          // boundingBox.ymax = ymax;
+          // boundingBoxesResults_.bounding_boxes.push_back(boundingBox);
         }
       }
     }
