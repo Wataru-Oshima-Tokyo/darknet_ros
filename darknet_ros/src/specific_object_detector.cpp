@@ -162,7 +162,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
     if (!(bb.bounding_boxes.empty())){
       rep(i,0,bb.bounding_boxes.size()){
         if (bb.bounding_boxes[i].Class =="person" && bb.bounding_boxes[i].probability >= 60){
-          detect_box = bb[i];
+          detect_box = bb.bounding_boxes[i];
           detected =true;
 
         } 
