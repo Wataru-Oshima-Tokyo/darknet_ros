@@ -16,6 +16,7 @@
 //  #include <camera_pkg/Coordinate.h>
  #include <darknet_ros_msgs/BoundingBoxes.h>
  #include <darknet_ros_msgs/BoundingBox.h>
+ #include <darknet_ros_msgs/Coordinate.h>
  #include <map>
 
 // #include <camera_pkg/Camera_CV.h>
@@ -32,16 +33,15 @@ double fstart, fstop;
 
 class DETECTOBJ{
   public:
+    //variables
     Mat src, src_gray, src_hsv, dst, detected_edges, mask;
     Mat depth;
     ros::Publisher pub;
-    ros::Subscriber image_sub, depth_sub;
+    ros::Subscriber image_sub, depth_sub, darknet_bbox_sub;
     ros::NodeHandle nh;
     ros::ServiceServer imshow_start, imshow_stop;
-    ros::ServiceClient calibration_start, calibration_stop;
     int lowThreshold;
-    // int low_c[3] = {17, 123, 121};
-    // int high_c[3] ={37, 143, 201};
+    darknet_ros_msgs::BoundingBoxes detected_object;
     int low_c[3] = {0, 0, 0};
     int high_c[3] = {0, 0, 0};
     const int max_c[3] = {179, 255, 255};
@@ -51,22 +51,26 @@ class DETECTOBJ{
     void CannyThreshold(int, void*);
     void MaskThreshold(int, void*);
     void DrawCircle(int, void*);
+    void detect_object(int , void*);
     void mouseEvent(int event, int x, int y, int flags, void* userdata);
     // Mat getDepth();
     const std::string OPENCV_WINDOW = "Image window";
-    virtual bool calibration_start_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
-    virtual bool calibration_stop_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
+    virtual bool objectdetection_start_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
+    virtual bool objectdetection_stop_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
     virtual void image_callback(const sensor_msgs::ImageConstPtr&);
     virtual void depth_callback(const sensor_msgs::ImageConstPtr&);
+    virtual void bbox_callback(const darknet_ros_msgs::BoundingBoxes&);
     // Topics
     const std::string IMAGE_TOPIC = "/camera/color/image_raw";
     const std::string DEPTH_TOPIC = "/camera/aligned_depth_to_color/image_raw";
+    const std::string BBOX_TOPIC = "/darknet_ros/bounding_boxes";
     // const std::string DEPTH_TOPIC = "/camera/depth/color/image_raw";
     const std::string PUBLISH_TOPIC = "/camera_pkg/coordinate";
     const std::string IMSHOW_SERVICE_START = "/imshow/start";
     const std::string IMSHOW_SERVICE_STOP = "/imshow/stop";
-    const std::string CALIB_SERVICE_START = "/calibration/start";
-    const std::string CALIB_SERVICE_STOP = "/calibration/stop";
+    const std::string CALIB_SERVICE_START = "/objectdetection/start";
+    const std::string CALIB_SERVICE_STOP = "/objectdetection/stop";
+
     DETECTOBJ();
     ~DETECTOBJ();
     bool getRun(); 
@@ -79,6 +83,8 @@ class DETECTOBJ{
     // }
 private:
     bool RUN = false;
+    double detect_probability =0.0;
+    bool detected=false;
     bool start_call = true;
     bool stop_call = false;
     const int ratio = 3;
@@ -108,7 +114,9 @@ bool DETECTOBJ::getRun(){
   return RUN;
 }
 
-
+void DETECTOBJ::detect_object(int, void*){
+  
+}
 
 
 void DETECTOBJ::DrawCircle(int, void*){
@@ -149,28 +157,29 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
 
 
-// void CAMERA_CV::CannyThreshold(int, void*)
-// {
-//     // cout << "start canny threashold" <<endl;
-//     // removeing the noise and ap since the kernel size is 3, set the size 3 by 3
-//     blur(mask, detected_edges, Size(3,3) );
-//     // //detecing an edege by Canny with the lowThreashold and maxThreshold which is 3 times thant the lower one.
-//     Canny(detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
-//     // //set the dist image all black so that you can put the deteceted edges on the black background
-//     dst = Scalar::all(0);
-//     // src.copyTo( dst, detected_edges);
-//     imshow( "Edge Map", detected_edges);
-//     waitKey(3);
-// }
+  void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
+    darknet_ros_msgs::BoundingBox detect_box;
+    if (bb.length() !=0){
+      rep(i,0,bb.length()){
+        if (bb[i].Class =='person' && bb[i].probability >= 60){
+          detect_box = bb[i];
+          detected =true;
 
- bool DETECTOBJ::calibration_start_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res){
+        } 
+      }
+      detected_object = detect_box;
+      
+    }
+  }
+
+ bool DETECTOBJ::objectdetection_start_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res){
   //  cout << "start calibration" << endl;
    RUN = true;
    return RUN;
 
  }
 
- bool DETECTOBJ::calibration_stop_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res){
+ bool DETECTOBJ::objectdetection_stop_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res){
   //  cout << "stop calibration" << endl;
    RUN = false;
    return RUN;
@@ -232,7 +241,7 @@ void mouseEvent(int event, int x, int y, int flags, void* userdata)
      DETECTOBJ *cc = (DETECTOBJ*)userdata;
     //  ros::Publisher* _pub = cc->pub;
     //  _cc.pub = _cc.nh.advertise<std_msgs::String>(_cc.PUBLISH_TOPIC, 1000);
-//      camera_pkg::Coordinate coordinate;
+     darknet_ros_msgs::Coordinate coordinate;
     //  Mat* _depth = &depth;
      std::string temp="";
      double z=0.0;
@@ -258,18 +267,18 @@ void mouseEvent(int event, int x, int y, int flags, void* userdata)
           cout << "Middle button of the mouse is clicked - position (" << x << ", " << y << ", " << z << ")" << endl;
           temp = "M";
      }
-//      if(!temp.empty()){
-//        if(z>0 && z <1200){
-//           coordinate.t = temp;
-//           coordinate.x = x;
-//           coordinate.y = y;
-//           coordinate.z = z;
-//           cc->pub.publish(coordinate);
-//        }else{
-//          cout << "z value is not valid please try again." << endl;
-//        }
+     if(!temp.empty()){
+       if(z>0 && z <1200){
+          coordinate.t = temp;
+          coordinate.x = x;
+          coordinate.y = y;
+          coordinate.z = z;
+          cc->pub.publish(coordinate);
+       }else{
+         cout << "z value is not valid please try again." << endl;
+       }
 
-//      }
+     }
 
 }
 
@@ -284,11 +293,12 @@ int main( int argc, char** argv )
    
    cc.image_sub = cc.nh.subscribe(cc.IMAGE_TOPIC, 1000, &DETECTOBJ::image_callback, &cc);
    cc.depth_sub = cc.nh.subscribe(cc.DEPTH_TOPIC, 1000, &DETECTOBJ::depth_callback, &cc);
+   cc.darknet_bbox_sub = cc.nh.subscribe(cc.BBOX_TOPIC, 1000, &DETECTOBJ::bbox_callback, &cc);
    cc.imshow_start = cc.nh.advertiseService(cc.IMSHOW_SERVICE_START, &DETECTOBJ::calibration_start_service, &cc);
    cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &DETECTOBJ::calibration_stop_service, &cc);
    cc.calibration_start = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_START);
    cc.calibration_stop = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_STOP);
-//    cc.pub = cc.nh.advertise<camera_pkg::Coordinate>(cc.PUBLISH_TOPIC, 1000);
+   cc.pub = cc.nh.advertise<darknet_ros_msgs::Coordinate>(cc.PUBLISH_TOPIC, 1000);
    std_srvs::Empty _emp;
    while(ros::ok()){
       // cout << cc.getRun() << endl;
