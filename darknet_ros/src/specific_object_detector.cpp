@@ -282,10 +282,10 @@ int main( int argc, char** argv )
    // Initialize the ROS Node "roscpp_example"
    ros::Rate loop_rate(20);
    
-   cc.image_sub = cc.nh.subscribe(cc.IMAGE_TOPIC, 1000, &CAMERA_CV::image_callback, &cc);
-   cc.depth_sub = cc.nh.subscribe(cc.DEPTH_TOPIC, 1000, &CAMERA_CV::depth_callback, &cc);
-   cc.imshow_start = cc.nh.advertiseService(cc.IMSHOW_SERVICE_START, &CAMERA_CV::calibration_start_service, &cc);
-   cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &CAMERA_CV::calibration_stop_service, &cc);
+   cc.image_sub = cc.nh.subscribe(cc.IMAGE_TOPIC, 1000, &DETECTOBJ::image_callback, &cc);
+   cc.depth_sub = cc.nh.subscribe(cc.DEPTH_TOPIC, 1000, &DETECTOBJ::depth_callback, &cc);
+   cc.imshow_start = cc.nh.advertiseService(cc.IMSHOW_SERVICE_START, &DETECTOBJ::calibration_start_service, &cc);
+   cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &DETECTOBJ::calibration_stop_service, &cc);
    cc.calibration_start = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_START);
    cc.calibration_stop = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_STOP);
 //    cc.pub = cc.nh.advertise<camera_pkg::Coordinate>(cc.PUBLISH_TOPIC, 1000);
