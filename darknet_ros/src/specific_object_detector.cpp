@@ -301,7 +301,9 @@ int main( int argc, char** argv )
    while(ros::ok()){
       // cout << cc.getRun() << endl;
        clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
-      if(cc.)
+      if(cc.getRun){
+        cc.detect_object(0,0);
+      }
       if(!cc.src.empty()){
         setMouseCallback("src", mouseEvent, &cc);
         clock_gettime(CLOCK_MONOTONIC, &stop); fstop=(double)stop.tv_sec + ((double)stop.tv_nsec/1000000000.0);
