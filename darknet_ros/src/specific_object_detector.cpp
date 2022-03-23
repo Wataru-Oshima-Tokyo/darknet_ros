@@ -115,7 +115,12 @@ bool DETECTOBJ::getRun(){
 }
 
 void DETECTOBJ::detect_object(int, void*){
-  // std::cout << "detected " << std::endl;
+  if(!(detected_object.empty()){
+    cv::Point pt1(detect_object.xmin, detect_object.ymin);
+    cv::Point pt2(detect_object.xmax, detect_object.ymax);
+    cv::putText(src, "Cup", pt2, FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 185, 0), 2);
+    cv::rectangle(src, pt1, pt2, cv::Scalar(0,255,0));
+  }
 }
 
 
@@ -160,13 +165,10 @@ void DETECTOBJ::MaskThreshold(int, void*){
   void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
     darknet_ros_msgs::BoundingBox detect_box;
     if (!(bb.bounding_boxes.empty())){
-      std::cout << "detected sth" << std::endl;
       rep(i,0,bb.bounding_boxes.size()){
-        std::cout << bb.bounding_boxes[i].probability << std::endl;
         if ((bb.bounding_boxes[i].Class == "cup") && (bb.bounding_boxes[i].probability >= 0.3)){
           detect_box = bb.bounding_boxes[i];
           detected =true;
-          // std::cout << "detected" <<std::endl;
         } 
       }
       detected_object = detect_box;
@@ -302,12 +304,10 @@ int main( int argc, char** argv )
    while(ros::ok()){
       // cout << cc.getRun() << endl;
       clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
-//       if(cc.getRun()){
-        
-//       }
-     
+      if(cc.getRun()){
+          cc.detect_object(0,0);
+      }
       if(!cc.src.empty()){
-        cc.detect_object(0,0);
         // setMouseCallback("src", mouseEvent, &cc);
         clock_gettime(CLOCK_MONOTONIC, &stop); fstop=(double)stop.tv_sec + ((double)stop.tv_nsec/1000000000.0);
         std::string fps= "FPS: " + std::to_string(1/(fstop-fstart));
