@@ -159,9 +159,9 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
   void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
     darknet_ros_msgs::BoundingBox detect_box;
-    if (!(bb.empty())){
-      rep(i,0,bb.size()){
-        if (bb[i].Class =="person" && bb[i].probability >= 60){
+    if (!(bb.bounding_boxes.empty())){
+      rep(i,0,bb.bounding_boxes.size()){
+        if (bb.bounding_boxes[i].Class =="person" && bb.bounding_boxes[i].probability >= 60){
           detect_box = bb[i];
           detected =true;
 
