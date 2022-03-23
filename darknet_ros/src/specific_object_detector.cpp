@@ -159,8 +159,8 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
   void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
     darknet_ros_msgs::BoundingBox detect_box;
-    if (bb.length() !=0){
-      rep(i,0,bb.length()){
+    if (!(bb.empty())){
+      rep(i,0,bb.size()){
         if (bb[i].Class =="person" && bb[i].probability >= 60){
           detect_box = bb[i];
           detected =true;
@@ -296,8 +296,6 @@ int main( int argc, char** argv )
    cc.darknet_bbox_sub = cc.nh.subscribe(cc.BBOX_TOPIC, 1000, &DETECTOBJ::bbox_callback, &cc);
    cc.imshow_start = cc.nh.advertiseService(cc.IMSHOW_SERVICE_START, &DETECTOBJ::objectdetection_start_service, &cc);
    cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &DETECTOBJ::objectdetection_stop_service, &cc);
-  //  cc.calibration_start = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_START);
-  //  cc.calibration_stop = cc.nh.serviceClient<std_srvs::Empty>(cc.CALIB_SERVICE_STOP);
    cc.pub = cc.nh.advertise<darknet_ros_msgs::Coordinate>(cc.PUBLISH_TOPIC, 1000);
    std_srvs::Empty _emp;
    while(ros::ok()){
