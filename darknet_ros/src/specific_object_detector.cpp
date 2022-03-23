@@ -229,7 +229,7 @@ void DETECTOBJ::depth_callback(const sensor_msgs::ImageConstPtr& msg){
 
 void mouseEvent(int event, int x, int y, int flags, void* userdata)
 {
-     CAMERA_CV *cc = (CAMERA_CV*)userdata;
+     DETECTOBJ *cc = (DETECTOBJ*)userdata;
     //  ros::Publisher* _pub = cc->pub;
     //  _cc.pub = _cc.nh.advertise<std_msgs::String>(_cc.PUBLISH_TOPIC, 1000);
 //      camera_pkg::Coordinate coordinate;
