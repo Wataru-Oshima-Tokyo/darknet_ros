@@ -161,12 +161,12 @@ void DETECTOBJ::MaskThreshold(int, void*){
     darknet_ros_msgs::BoundingBox detect_box;
     if (!(bb.bounding_boxes.empty())){
       rep(i,0,bb.bounding_boxes.size()){
-        if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 60){
+        if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 30){
           detect_box = bb.bounding_boxes[i];
           detected =true;
         } 
       }
-      detected_object = detect_box;
+      detected_object = &detect_box;
     }
   }
 
