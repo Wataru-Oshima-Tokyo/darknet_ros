@@ -162,6 +162,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
     if (!(bb.bounding_boxes.empty())){
       std::cout << "detected sth" << std::endl;
       rep(i,0,bb.bounding_boxes.size()){
+        std::cout << bb.bounding_boxes[i].Class << std::endl;
         if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 30){
           detect_box = bb.bounding_boxes[i];
           detected =true;
