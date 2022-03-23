@@ -41,7 +41,7 @@ class DETECTOBJ{
     ros::NodeHandle nh;
     ros::ServiceServer imshow_start, imshow_stop;
     int lowThreshold;
-    darknet_ros_msgs::BoundingBoxes detected_object;
+    darknet_ros_msgs::BoundingBox detected_object;
     int low_c[3] = {0, 0, 0};
     int high_c[3] = {0, 0, 0};
     const int max_c[3] = {179, 255, 255};
@@ -167,7 +167,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
         } 
       }
-      detected_object = &detect_box;
+      detected_object = detect_box;
       
     }
   }
