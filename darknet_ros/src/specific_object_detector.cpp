@@ -13,7 +13,7 @@
  #include "std_msgs/String.h"
  #include "std_srvs/Empty.h"
  #include <vector>
- #include <darknet_ros/Coordinate.h>
+//  #include <camera_pkg/Coordinate.h>
  #include <darknet_ros/darknet_ros_msgs.h>
  #include <map>
 
@@ -66,8 +66,8 @@ class DETECTOBJ{
     const std::string IMSHOW_SERVICE_STOP = "/imshow/stop";
     const std::string CALIB_SERVICE_START = "/calibration/start";
     const std::string CALIB_SERVICE_STOP = "/calibration/stop";
-    CAMERA_CV();
-    ~CAMERA_CV();
+    DETECTOBJ();
+    ~DETECTOBJ();
     bool getRun(); 
     const int max_lowThreshold = 100;
     const std::string window_name = "Edge Map";
@@ -86,13 +86,13 @@ private:
 };
 
 
-CAMERA_CV::CAMERA_CV(){
+DETECTOBJ::DETECTOBJ(){
   lowThreshold = 6;
 };
 
-CAMERA_CV::~CAMERA_CV(){};
+DETECTOBJ::~DETECTOBJ(){};
 
-bool CAMERA_CV::getRun(){
+bool DETECTOBJ::getRun(){
   std_srvs::Empty _emp;
   if(RUN && start_call){
     calibration_start.call(_emp);
@@ -231,7 +231,7 @@ void mouseEvent(int event, int x, int y, int flags, void* userdata)
      CAMERA_CV *cc = (CAMERA_CV*)userdata;
     //  ros::Publisher* _pub = cc->pub;
     //  _cc.pub = _cc.nh.advertise<std_msgs::String>(_cc.PUBLISH_TOPIC, 1000);
-     camera_pkg::Coordinate coordinate;
+//      camera_pkg::Coordinate coordinate;
     //  Mat* _depth = &depth;
      std::string temp="";
      double z=0.0;
@@ -257,18 +257,18 @@ void mouseEvent(int event, int x, int y, int flags, void* userdata)
           cout << "Middle button of the mouse is clicked - position (" << x << ", " << y << ", " << z << ")" << endl;
           temp = "M";
      }
-     if(!temp.empty()){
-       if(z>0 && z <1200){
-          coordinate.t = temp;
-          coordinate.x = x;
-          coordinate.y = y;
-          coordinate.z = z;
-          cc->pub.publish(coordinate);
-       }else{
-         cout << "z value is not valid please try again." << endl;
-       }
+//      if(!temp.empty()){
+//        if(z>0 && z <1200){
+//           coordinate.t = temp;
+//           coordinate.x = x;
+//           coordinate.y = y;
+//           coordinate.z = z;
+//           cc->pub.publish(coordinate);
+//        }else{
+//          cout << "z value is not valid please try again." << endl;
+//        }
 
-     }
+//      }
 
 }
 
