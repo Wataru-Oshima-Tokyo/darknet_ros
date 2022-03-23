@@ -161,7 +161,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
     darknet_ros_msgs::BoundingBox detect_box;
     if (!(bb.bounding_boxes.empty())){
       rep(i,0,bb.bounding_boxes.size()){
-        if (bb.bounding_boxes[i].Class =="person" && bb.bounding_boxes[i].probability >= 60){
+        if (bb.bounding_boxes[i].Class =="cup" && bb.bounding_boxes[i].probability >= 60){
           detect_box = bb.bounding_boxes[i];
           detected =true;
         } 
@@ -298,7 +298,7 @@ int main( int argc, char** argv )
    std_srvs::Empty _emp;
    while(ros::ok()){
       // cout << cc.getRun() << endl;
-       clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
+      clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
       if(cc.getRun()){
         cc.detect_object(0,0);
       }
