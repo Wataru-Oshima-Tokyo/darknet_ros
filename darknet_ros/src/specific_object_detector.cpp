@@ -14,7 +14,8 @@
  #include "std_srvs/Empty.h"
  #include <vector>
 //  #include <camera_pkg/Coordinate.h>
- #include <darknet_ros/darknet_ros_msgs.h>
+ #include <darknet_ros_msgs/BoundingBoxes.h>
+ #include <darknet_ros_msgs/BoundingBox.h>
  #include <map>
 
 // #include <camera_pkg/Camera_CV.h>
