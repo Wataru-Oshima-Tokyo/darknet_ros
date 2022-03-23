@@ -111,7 +111,7 @@ bool DETECTOBJ::getRun(){
   //   stop_call = false;
   // }
     
-  return RUN;
+  return detected;
 }
 
 void DETECTOBJ::detect_object(int, void*){
@@ -164,11 +164,9 @@ void DETECTOBJ::MaskThreshold(int, void*){
         if (bb.bounding_boxes[i].Class =="person" && bb.bounding_boxes[i].probability >= 60){
           detect_box = bb.bounding_boxes[i];
           detected =true;
-
         } 
       }
       detected_object = detect_box;
-      
     }
   }
 
