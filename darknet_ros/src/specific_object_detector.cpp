@@ -163,10 +163,10 @@ void DETECTOBJ::MaskThreshold(int, void*){
       std::cout << "detected sth" << std::endl;
       rep(i,0,bb.bounding_boxes.size()){
         std::cout << bb.bounding_boxes[i].probability << std::endl;
-        if ((bb.bounding_boxes[i].Class == "cup") && (bb.bounding_boxes[i].probability >= 30)){
+        if ((bb.bounding_boxes[i].Class == "cup") && (bb.bounding_boxes[i].probability >= 0.3)){
           detect_box = bb.bounding_boxes[i];
           detected =true;
-          std::cout << "detected" <<std::endl;
+          // std::cout << "detected" <<std::endl;
         } 
       }
       detected_object = detect_box;
