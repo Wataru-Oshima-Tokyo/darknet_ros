@@ -99,20 +99,20 @@ DETECTOBJ::DETECTOBJ(){
 
 DETECTOBJ::~DETECTOBJ(){};
 
-bool DETECTOBJ::getRun(){
-  std_srvs::Empty _emp;
-  if(RUN && start_call){
-    calibration_start.call(_emp);
-    start_call = false;
-    stop_call = true;
-  }else if(!RUN && stop_call) {
-    calibration_stop.call(_emp);
-    start_call = true;
-    stop_call = false;
-  }
+// bool DETECTOBJ::getRun(){
+//   std_srvs::Empty _emp;
+//   if(RUN && start_call){
+//     calibration_start.call(_emp);
+//     start_call = false;
+//     stop_call = true;
+//   }else if(!RUN && stop_call) {
+//     calibration_stop.call(_emp);
+//     start_call = true;
+//     stop_call = false;
+//   }
     
-  return RUN;
-}
+//   return RUN;
+// }
 
 void DETECTOBJ::detect_object(int, void*){
   
@@ -161,7 +161,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
     darknet_ros_msgs::BoundingBox detect_box;
     if (bb.length() !=0){
       rep(i,0,bb.length()){
-        if (bb[i].Class =='person' && bb[i].probability >= 60){
+        if (bb[i].Class =="person" && bb[i].probability >= 60){
           detect_box = bb[i];
           detected =true;
 
@@ -303,10 +303,7 @@ int main( int argc, char** argv )
    while(ros::ok()){
       // cout << cc.getRun() << endl;
        clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
-       
-      if(cc.getRun()){
-            cc.DrawCircle(0,0);
-      }
+
       if(!cc.src.empty()){
         setMouseCallback("src", mouseEvent, &cc);
         clock_gettime(CLOCK_MONOTONIC, &stop); fstop=(double)stop.tv_sec + ((double)stop.tv_nsec/1000000000.0);
