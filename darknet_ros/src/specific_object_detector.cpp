@@ -167,7 +167,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
         } 
       }
-      detected_object = detect_box;
+      detected_object = &detect_box;
       
     }
   }
