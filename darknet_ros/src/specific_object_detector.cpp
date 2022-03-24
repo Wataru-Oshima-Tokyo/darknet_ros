@@ -156,7 +156,7 @@ void DETECTOBJ::MaskThreshold(int, void*){
     //   detected_object = detect_box;
     // }
     if (!(bb.bounding_boxes.empty()))
-    detect_object =  = bb.bounding_boxes[0];
+    detect_object = bb.bounding_boxes[0];
 
 
   }
