@@ -13,7 +13,7 @@
  #include "std_msgs/String.h"
  #include "std_srvs/Empty.h"
  #include <vector>
-//  #include <camera_pkg/Coordinate.h>
+//  #include <object/Coordinate.h>
  #include <darknet_ros_msgs/BoundingBoxes.h>
  #include <darknet_ros_msgs/BoundingBox.h>
  #include <darknet_ros_msgs/Coordinate.h>
@@ -66,7 +66,7 @@ class DETECTOBJ{
     const std::string DEPTH_TOPIC = "/camera/aligned_depth_to_color/image_raw";
     const std::string BBOX_TOPIC = "/darknet_ros/bounding_boxes";
     // const std::string DEPTH_TOPIC = "/camera/depth/color/image_raw";
-    const std::string PUBLISH_TOPIC = "/camera_pkg/coordinate";
+    const std::string PUBLISH_TOPIC = "/objectdetection/coordinate";
     const std::string IMSHOW_SERVICE_START = "/imshow/start";
     const std::string IMSHOW_SERVICE_STOP = "/imshow/stop";
     const std::string CALIB_SERVICE_START = "/objectdetection/start";
@@ -110,7 +110,12 @@ void DETECTOBJ::detect_object(int, void* userdata){
     int z = cc->depth.at<uint16_t>(center.y,center.x);
     cc->coordinate.x = center.x;
     cc->coordinate.y = center.y;
-    cc->coordinate.z = z;
+    if(cc->coordinate.x !=0 && cc->coordinate.y!=0){
+      cc->coordinate.z = z;
+    }else{
+      cc->coordinate.z =0;
+    }
+    
     cc->pub.publish(coordinate);
 }
 
