@@ -146,15 +146,19 @@ void DETECTOBJ::MaskThreshold(int, void*){
 
   void DETECTOBJ::bbox_callback(const darknet_ros_msgs::BoundingBoxes& bb){
     darknet_ros_msgs::BoundingBox detect_box;
-    if (!(bb.bounding_boxes.empty())){
-      rep(i,0,bb.bounding_boxes.size()){
-        if ((bb.bounding_boxes[i].Class == "cup") && (bb.bounding_boxes[i].probability >= 0.3)){
-          detect_box = bb.bounding_boxes[i];
-          detected =true;
-        } 
-      }
-      detected_object = detect_box;
-    }
+    // if (!(bb.bounding_boxes.empty())){
+    //   rep(i,0,bb.bounding_boxes.size()){
+    //     if ((bb.bounding_boxes[i].Class == "cup") && (bb.bounding_boxes[i].probability >= 0.3)){
+    //       detect_box = bb.bounding_boxes[i];
+    //       detected =true;
+    //     } 
+    //   }
+    //   detected_object = detect_box;
+    // }
+    if (!(bb.bounding_boxes.empty()))
+    detect_object =  = bb.bounding_boxes[0];
+
+
   }
 
  bool DETECTOBJ::objectdetection_start_service(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res){
