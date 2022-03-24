@@ -108,8 +108,8 @@ void DETECTOBJ::detect_object(int, void* userdata){
     cv::putText(src, "Cup", pt2, FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 185, 0), 2);
     cv::rectangle(src, pt1, pt2, cv::Scalar(0,255,0));
     int z = cc->depth.at<uint16_t>(center.y,center.x);
-    cc->coordinate.x = x;
-    cc->coordinate.y = y;
+    cc->coordinate.x = center.x;
+    cc->coordinate.y = center.y;
     cc->coordinate.z = z;
     cc->pub.publish(coordinate);
 }
@@ -297,7 +297,7 @@ int main( int argc, char** argv )
       // cout << cc.getRun() << endl;
       clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
       if(cc.getRun()){
-          cc.detect_object(0,cc);
+          cc.detect_object(0,&cc);
       }
       if(!cc.src.empty()){
         // setMouseCallback("src", mouseEvent, &cc);
