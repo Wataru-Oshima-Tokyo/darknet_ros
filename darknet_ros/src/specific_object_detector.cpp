@@ -52,7 +52,7 @@ class DETECTOBJ{
     void CannyThreshold(int, void*);
     void MaskThreshold(int, void*);
     void DrawCircle(int, void*);
-    void detect_object(int , void*);
+    void detect_object(int , void* userdata);
     void mouseEvent(int event, int x, int y, int flags, void* userdata);
     // Mat getDepth();
     const std::string OPENCV_WINDOW = "Image window";
@@ -107,7 +107,7 @@ void DETECTOBJ::detect_object(int, void* userdata){
     cv::circle(src, center, 5, cv::Scalar(0, 0, 255));
     cv::putText(src, "Cup", pt2, FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 185, 0), 2);
     cv::rectangle(src, pt1, pt2, cv::Scalar(0,255,0));
-    int z = cc->depth.at<uint16_t>((uint16_t)y,(uint16_t)x);
+    int z = cc->depth.at<uint16_t>(center.y,center.x);
     cc->coordinate.x = x;
     cc->coordinate.y = y;
     cc->coordinate.z = z;
