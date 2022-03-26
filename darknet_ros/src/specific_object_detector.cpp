@@ -65,7 +65,7 @@ class DETECTOBJ{
     const std::string DEPTH_TOPIC = "/camera/aligned_depth_to_color/image_raw";
     const std::string BBOX_TOPIC = "/darknet_ros/bounding_boxes";
     // const std::string DEPTH_TOPIC = "/camera/depth/color/image_raw";
-    const std::string PUBLISH_TOPIC = "/camera_pkg/coordinate";
+    const std::string PUBLISH_TOPIC = "/objectdetection/coordinate";
     const std::string IMSHOW_SERVICE_START = "/imshow/start";
     const std::string IMSHOW_SERVICE_STOP = "/imshow/stop";
     const std::string CALIB_SERVICE_START = "/objectdetection/start";
