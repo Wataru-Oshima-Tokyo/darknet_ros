@@ -13,7 +13,7 @@
  #include "std_msgs/String.h"
  #include "std_srvs/Empty.h"
  #include <vector>
-//  #include <camera_pkg/Coordinate.h>
+//  #include <object/Coordinate.h>
  #include <darknet_ros_msgs/BoundingBoxes.h>
  #include <darknet_ros_msgs/BoundingBox.h>
  #include <darknet_ros_msgs/Coordinate.h>
@@ -39,6 +39,7 @@ class DETECTOBJ{
     ros::Publisher pub;
     ros::Subscriber image_sub, depth_sub, darknet_bbox_sub;
     ros::NodeHandle nh;
+    darknet_ros_msgs::Coordinate coordinate;
     ros::ServiceServer imshow_start, imshow_stop;
     int lowThreshold;
     darknet_ros_msgs::BoundingBox detected_object;
@@ -51,7 +52,7 @@ class DETECTOBJ{
     void CannyThreshold(int, void*);
     void MaskThreshold(int, void*);
     void DrawCircle(int, void*);
-    void detect_object(int , void*);
+    void detect_object(int , void* userdata);
     void mouseEvent(int event, int x, int y, int flags, void* userdata);
     // Mat getDepth();
     const std::string OPENCV_WINDOW = "Image window";
@@ -98,13 +99,24 @@ bool DETECTOBJ::getRun(){
   return detected;
 }
 
-void DETECTOBJ::detect_object(int, void*){
+void DETECTOBJ::detect_object(int, void* userdata){
+    DETECTOBJ *cc = (DETECTOBJ*)userdata;
     cv::Point pt1(detected_object.xmin, detected_object.ymin);
     cv::Point pt2(detected_object.xmax, detected_object.ymax);
-    cv::Point center((detected_object.xmax-detected_object.xmin)/2, (detected_object.ymax-detected_object.ymin)/2);
-    cv::circle(frame, center, 5, cv::Scalar(0, 0, 255));
+    cv::Point center((detected_object.xmax+detected_object.xmin)/2, (detected_object.ymax+detected_object.ymin)/2);
+    cv::circle(src, center, 5, cv::Scalar(0, 0, 255));
     cv::putText(src, "Cup", pt2, FONT_HERSHEY_DUPLEX, 1.0, cv::Scalar(255, 185, 0), 2);
     cv::rectangle(src, pt1, pt2, cv::Scalar(0,255,0));
+    int z = cc->depth.at<uint16_t>(center.y,center.x);
+    cc->coordinate.x = center.x;
+    cc->coordinate.y = center.y;
+    if(cc->coordinate.x !=0 && cc->coordinate.y!=0){
+      cc->coordinate.z = z;
+    }else{
+      cc->coordinate.z =0;
+    }
+    
+    cc->pub.publish(coordinate);
 }
 
 
@@ -284,12 +296,13 @@ int main( int argc, char** argv )
    cc.imshow_start = cc.nh.advertiseService(cc.IMSHOW_SERVICE_START, &DETECTOBJ::objectdetection_start_service, &cc);
    cc.imshow_stop = cc.nh.advertiseService(cc.IMSHOW_SERVICE_STOP, &DETECTOBJ::objectdetection_stop_service, &cc);
    cc.pub = cc.nh.advertise<darknet_ros_msgs::Coordinate>(cc.PUBLISH_TOPIC, 1000);
+   
    std_srvs::Empty _emp;
    while(ros::ok()){
       // cout << cc.getRun() << endl;
       clock_gettime(CLOCK_MONOTONIC, &start); fstart=(double)start.tv_sec + ((double)start.tv_nsec/1000000000.0);
       if(cc.getRun()){
-          cc.detect_object(0,0);
+          cc.detect_object(0,&cc);
       }
       if(!cc.src.empty()){
         // setMouseCallback("src", mouseEvent, &cc);
