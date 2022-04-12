@@ -38,7 +38,7 @@ class PersonDetector():
 
     def CamRgbImageCallback(self, rgb_image_data):
         try:
-            rgb_image = self.cv_bridge.imgmsg_to_cv2(rgb_image_data, 'passthrough')
+            rgb_image = self.cv_bridge.imgmsg_to_cv2(rgb_image_data, 'bgr16')
         except CvBridgeError, e:
             rospy.logerr(e)
 
