@@ -14,7 +14,7 @@
   <depend>libx11</depend>
   <depend>libxt-dev</depend>
   <depend>libxext</depend>
-
+  <depend>camera_pkg</depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>std_msgs</depend>

@@ -59,6 +59,7 @@ find_package(catkin REQUIRED
     darknet_ros_msgs
     image_transport
     nodelet
+    #camera_pkg
 )
 
 # Enable OPENCV in darknet
@@ -209,6 +210,9 @@ catkin_install_python(PROGRAMS scripts/person_recognition_3d.py scripts/exampleO
 )
 add_executable(cmd_vel_Node src/getDistance_sendCmd.cpp)
 target_link_libraries(cmd_vel_Node ${catkin_LIBRARIES})
+
+add_executable(specific_object src/specific_object_detector.cpp)
+target_link_libraries(specific_object ${catkin_LIBRARIES})
 
 add_executable(lidar_Node src/lidar_detection.cpp)
 target_link_libraries(lidar_Node ${catkin_LIBRARIES})

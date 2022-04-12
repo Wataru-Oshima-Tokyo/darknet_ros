@@ -40,7 +40,8 @@ class PersonDetector():
         try:
             rgb_image = self.cv_bridge.imgmsg_to_cv2(rgb_image_data, 'bgr16')
         except CvBridgeError, e:
-            rospy.logerr(e)
+		pass
+#             rospy.logerr(e)
 
         rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
@@ -79,9 +80,9 @@ class PersonDetector():
             cv2.putText(rgb_image, text, text_pos, cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 0, 255), 1)
 	    self.image_pub.publish(self.cv_bridge.cv2_to_imgmsg(rgb_image))
 	
-#         cv2.namedWindow("rgb_image")
-#         cv2.imshow("rgb_image", rgb_image)
-#         cv2.waitKey(10)
+        cv2.namedWindow("rgb_image")
+        cv2.imshow("rgb_image", rgb_image)
+        cv2.waitKey(3)
 #         cv2.normalize(self.m_depth_image, self.m_depth_image, 0, 32768, cv2.NORM_MINMAX)
 #         cv2.namedWindow("depth_image")
 #         cv2.imshow("depth_image", self.m_depth_image)
@@ -95,7 +96,8 @@ class PersonDetector():
         try:
             self.m_depth_image = self.cv_bridge.imgmsg_to_cv2(depth_image_data, 'passthrough')
         except CvBridgeError, e:
-            rospy.logerr(e)
+		pass
+#             rospy.logerr(e)
         self.m_camdepth_height, self.m_camdepth_width = self.m_depth_image.shape[:2]
         return
 
